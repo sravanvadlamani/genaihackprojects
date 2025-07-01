@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 
 # Load OpenAI key
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(page_title="Training Insights", layout="wide")
 st.title("🧠 AI Training Risk Insights")
