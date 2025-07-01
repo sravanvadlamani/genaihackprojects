@@ -1,0 +1,11 @@
+EmployeeID,Name,Team,Role,TrainingName,Status,CompletionDate,DueDate,Score
+E001,Alice,Sales,Rep,Product Onboarding,Completed,2024-05-01,2024-04-30,88
+E002,Bob,Sales,Rep,Product Onboarding,Overdue,,2024-04-30,
+E003,Charlie,Support,Agent,Security Basics,Completed,2024-03-15,2024-03-10,92
+E004,Diana,Support,Agent,Security Basics,Overdue,,2024-03-10,
+E005,Edward,Engineering,Engineer,Code of Conduct,Completed,2024-06-01,2024-05-30,95
+E006,Fiona,Engineering,Engineer,Code of Conduct,Completed,2024-06-03,2024-05-30,67
+E007,Grace,Sales,Manager,Compliance 101,Completed,2024-04-20,2024-04-15,78
+E008,Henry,Sales,Rep,Compliance 101,Overdue,,2024-04-15,
+E009,Ivy,Support,Agent,Security Basics,Completed,2024-03-10,2024-03-10,58
+E010,Jack,Engineering,Engineer,Security Basics,Completed,2024-06-10,2024-06-05,72
