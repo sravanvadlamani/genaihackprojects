@@ -109,32 +109,48 @@ for q, a in reversed(st.session_state.chat_history):
     st.markdown(f"**You:** {q}")
     st.markdown(f"**AI:** {a}")
 
-# --- Risk Visuals and Predictions ---
-if st.button("📊 Show Risk Predictions and Visuals"):
-    st.subheader("🔍 ML Predictions for Overdue Risk")
+# --- Filters ---
+with st.expander("🔍 Filter by Team and Role"):
+    selected_team = st.multiselect("Select Team(s)", df["Team"].unique())
+    selected_role = st.multiselect("Select Role(s)", df["Role"].unique())
+    filtered_df = df.copy()
+    if selected_team:
+        filtered_df = filtered_df[filtered_df["Team"].isin(selected_team)]
+    if selected_role:
+        filtered_df = filtered_df[filtered_df["Role"].isin(selected_role)]
+
+# --- Show Predictions Button ---
+if st.button("🔍 Show Risk Predictions and Visuals"):
+    st.subheader("📊 Predicted Overdue Risk")
     st.dataframe(
-        df[["Name", "Team", "Role", "TrainingName", "DueDate", "Status", "Overdue_Prob", "Predicted_Overdue"]]
-        .sort_values("Overdue_Prob", ascending=False)
-        .reset_index(drop=True)
+        filtered_df[[
+            "Name", "Team", "Role", "TrainingName", "DueDate", "Status", "Overdue_Prob", "Predicted_Overdue"
+        ]].sort_values("Overdue_Prob", ascending=False).reset_index(drop=True)
     )
 
+    # --- Chart: Training Status Breakdown ---
     st.subheader("📈 Training Status Breakdown")
-    st.bar_chart(df["Status"].value_counts())
+    status_counts = filtered_df["Status"].value_counts()
+    st.bar_chart(status_counts)
 
+    # --- Chart: Overdue Probability Distribution ---
     st.subheader("📉 Overdue Probability Distribution")
     fig, ax = plt.subplots()
-    ax.hist(df["Overdue_Prob"], bins=10, color="skyblue", edgecolor="black")
-    ax.set_title("Distribution of Overdue Probabilities")
+    ax.hist(filtered_df["Overdue_Prob"], bins=10, color="skyblue", edgecolor="black")
+    ax.set_title("Distribution of Overdue Risk")
     ax.set_xlabel("Predicted Overdue Probability")
     ax.set_ylabel("Number of Trainings")
     st.pyplot(fig)
 
-    st.subheader("🚨 Top High-Risk Roles (>70% Probability)")
-    high_risk_roles = df[df["Overdue_Prob"] > 0.7]["Role"].value_counts()
+    # --- Chart: High Risk by Role ---
+    st.subheader("🚨 High-Risk Roles (>70% Prob)")
+    high_risk_roles = filtered_df[filtered_df["Overdue_Prob"] > 0.7]["Role"].value_counts()
     if not high_risk_roles.empty:
         st.bar_chart(high_risk_roles)
     else:
-        st.success("No roles with overdue risk >70%.")
+        st.success("No roles with high predicted risk (>70%).")
+else:
+    st.info("Click the button above to explore ML predictions and visual analytics.")
 
 # --- Export to PDF ---
 def export_to_pdf(summary_text, df):
