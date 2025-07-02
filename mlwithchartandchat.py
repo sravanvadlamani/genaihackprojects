@@ -13,8 +13,8 @@ import tempfile
 # Load OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-st.set_page_config(page_title="Training Insights", layout="wide")
-st.title("🧠 Training Risk Insights Dashboard")
+st.set_page_config(page_title="Transcript Insights", layout="wide")
+st.title("🧠 Transcript Records Insights Dashboard")
 
 # --- Load and preprocess training data ---
 csv_path = "./training_data.csv"
